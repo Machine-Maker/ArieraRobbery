@@ -1,0 +1,10 @@
+name: ArieraRobbery
+version: 0.1
+description: Creates robbable banks
+author: X1machinemaker1X
+depend: [WorldEdit, Vault]
+main: me.x1machinemaker1x.arierarobbery.ArieraRobbery
+
+commands:
+  arierarobbery:
+    aliases: [ar]
