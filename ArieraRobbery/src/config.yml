@@ -4,3 +4,4 @@
 time-must-stay-near-sign-seconds: 30
 time-must-stay-in-vault-minutes: 5
 time-between-robs-minutes: 60
+amount-to-get-when-robbed: 100

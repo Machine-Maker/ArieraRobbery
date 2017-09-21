@@ -1,10 +1,6 @@
 package me.x1machinemaker1x.arierarobbery.cmds;
 
-import java.util.Set;
-
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import me.x1machinemaker1x.arierarobbery.objects.BankVault;
@@ -19,15 +15,14 @@ public class DeleteSign extends SubCommand {
 			p.sendMessage(Messages.PREFIX.toString() + Messages.NOT_VAULT.toString());
 			return;
 		}
-		Block b = p.getTargetBlock((Set<Material>) null, 4);
-		for (Location loc : vault.getDoor()) {
-			if (loc.equals(b.getLocation())) {
-				vault.setSign(null);
-				Vaults.getInstance().saveVaults();
-				return;
-			}
+		if (vault.getSign() == null) {
+			p.sendMessage(Messages.PREFIX.toString() + Messages.NO_SIGN.toString());
+			return;
 		}
-		p.sendMessage(Messages.PREFIX.toString() + Messages.NOT_SIGN.toString());
+		vault.getSign().getBlock().setType(Material.AIR);
+		vault.setSign(null);
+		Vaults.getInstance().saveVaults();
+		p.sendMessage(Messages.PREFIX.toString() + Messages.SIGN_DELETED.toString().replace("%vaultname%", vault.getName()));
 	}
 	
 	public String name() {

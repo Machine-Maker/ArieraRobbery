@@ -68,6 +68,10 @@ public class Vaults {
 		return null;
 	}
 	
+	public List<BankVault> getVaults() {
+		return vaults;
+	}
+	
 	public boolean isSign(Location loc) {
 		if (vaults.isEmpty()) return false;
 		for (BankVault vault : vaults) {

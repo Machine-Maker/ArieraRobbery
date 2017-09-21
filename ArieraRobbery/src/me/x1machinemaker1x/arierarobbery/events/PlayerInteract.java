@@ -38,6 +38,7 @@ public class PlayerInteract implements Listener {
 	
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e) {
+		if (e.getClickedBlock() == null) return;
 		if (!Vaults.getInstance().isSign(e.getClickedBlock().getLocation())) return;
 		if (!(e.getClickedBlock().getState() instanceof Sign)) {
 			Vaults.getInstance().delSign(e.getClickedBlock().getLocation());
@@ -45,8 +46,11 @@ public class PlayerInteract implements Listener {
 		}
 		Sign sign = (Sign) e.getClickedBlock().getState();
 		BankVault vault = Vaults.getInstance().getVault(sign.getLine(1).substring(sign.getLine(1).indexOf(":") + 4));
-		if (!vault.isRobbable()) {
+		if (!vault.isRobbable() || vault.getSignTimer() != null || vault.getVaultTimer() != null) {
 			e.getPlayer().sendMessage(Messages.NOT_ROBBABLE.toString());
+			if (!vault.isBeingRobbed() && vault.getSignTimer() == null && vault.getVaultTimer() == null) {
+				e.getPlayer().sendMessage(Messages.TIME_LEFT.toString().replace("%time%", Messages.convertTime(vault.getTime() - System.currentTimeMillis())));
+			}
 			return;
 		}
 		Inventory inv = Bukkit.createInventory(null, 36, ChatColor.DARK_RED + "Passcode: " + ChatColor.GOLD + vault.getName());

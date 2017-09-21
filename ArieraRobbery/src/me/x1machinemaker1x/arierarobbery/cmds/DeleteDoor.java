@@ -1,12 +1,12 @@
 package me.x1machinemaker1x.arierarobbery.cmds;
 
+import java.util.List;
 import java.util.Set;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-
 
 import me.x1machinemaker1x.arierarobbery.objects.BankVault;
 import me.x1machinemaker1x.arierarobbery.utils.Messages;
@@ -21,15 +21,28 @@ public class DeleteDoor extends SubCommand {
 			return;
 		}
 		Block b = p.getTargetBlock((Set<Material>) null, 4);
-		for (Location loc : vault.getDoor()) {
+		List<Location> door = vault.getDoor();
+		boolean deletedDoor = false;
+		for (Location loc : door) {
+			if (loc == null) {
+				p.sendMessage(Messages.PREFIX.toString() + Messages.NO_DOOR.toString());
+				return;
+			}
 			if (loc.equals(b.getLocation())) {
 				vault.delDoor();
 				Vaults.getInstance().saveVaults();
 				p.sendMessage(Messages.PREFIX.toString() + Messages.DOOR_DELETED.toString().replace("%vaultname%", args[0]));
-				return;
+				deletedDoor = true;
 			}
 		}
-		p.sendMessage(Messages.PREFIX.toString() + Messages.NOT_DOOR.toString());
+		if (deletedDoor) {
+			for (Location loc : door) {
+				loc.getBlock().setType(Material.AIR);
+			}
+		}
+		else {
+			p.sendMessage(Messages.PREFIX.toString() + Messages.NOT_DOOR.toString());
+		}
 	}
 	
 	public String name() {

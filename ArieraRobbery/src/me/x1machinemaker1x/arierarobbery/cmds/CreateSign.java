@@ -25,8 +25,8 @@ public class CreateSign extends SubCommand {
 			return;
 		}
 		Sign s = (Sign) b.getState();
-		s.setLine(0, "Â§4[Â§1ArieraRobberyÂ§4]");
-		s.setLine(1, "Â§cVault: Â§r" + args[0]);
+		s.setLine(0, "§4[§1ArieraRobbery§4]");
+		s.setLine(1, "§cVault: §r" + args[0]);
 		s.setLine(2, "");
 		s.setLine(3, "");
 		s.update();

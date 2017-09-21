@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
+import me.x1machinemaker1x.arierarobbery.cmds.CheckTime;
 import me.x1machinemaker1x.arierarobbery.cmds.CreateDoor;
 import me.x1machinemaker1x.arierarobbery.cmds.CreateSign;
 import me.x1machinemaker1x.arierarobbery.cmds.CreateVault;
@@ -20,6 +21,7 @@ import me.x1machinemaker1x.arierarobbery.cmds.DisableVault;
 import me.x1machinemaker1x.arierarobbery.cmds.EnableVault;
 import me.x1machinemaker1x.arierarobbery.cmds.Reload;
 import me.x1machinemaker1x.arierarobbery.cmds.SubCommand;
+import me.x1machinemaker1x.arierarobbery.cmds.VaultCheck;
 
 
 public class Commands implements CommandExecutor {
@@ -35,6 +37,8 @@ public class Commands implements CommandExecutor {
 		commands.add(new EnableVault());
 		commands.add(new DisableVault());
 		commands.add(new Reload(plugin));
+		commands.add(new VaultCheck());
+		commands.add(new CheckTime());
 	}
 
 	public boolean onCommand(CommandSender cs, Command cmd, String label, String[] args) {

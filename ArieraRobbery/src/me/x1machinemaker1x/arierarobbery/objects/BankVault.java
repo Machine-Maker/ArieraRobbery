@@ -30,6 +30,8 @@ public class BankVault implements ConfigurationSerializable {
 	Location sign = null;
 	Boolean beingRobbed = false;
 	Long timeBeforeCanBeRobbed = null;
+	VaultTimer vTimer = null;
+	SignTimer sTimer = null;
 	
 	public BankVault(String name, CuboidSelection sel, List<Location> door, String passcode, Location sign, boolean enable, Long timeBeforeCanBeRobbed) {
 		this.name = name;
@@ -104,11 +106,11 @@ public class BankVault implements ConfigurationSerializable {
 	}
 	
 	public Boolean isRobbable() {
-		return System.currentTimeMillis() > this.timeBeforeCanBeRobbed;
+		return System.currentTimeMillis() > this.timeBeforeCanBeRobbed && this.sign != null && !this.door.contains(null) && !this.beingRobbed;
 	}
 	
 	public void resetRobbable() {
-		this.timeBeforeCanBeRobbed = System.currentTimeMillis() + (1000 * 60 * Configs.getInstance().getConfig(ConfigType.CONFIG).getInt("time-between-robs-in-minutes"));
+		this.timeBeforeCanBeRobbed = System.currentTimeMillis() + (1000 * 60 * Configs.getInstance().getConfig(ConfigType.CONFIG).getInt("time-between-robs-minutes"));
 	}
 	
 	public Boolean isBeingRobbed() {
@@ -125,6 +127,22 @@ public class BankVault implements ConfigurationSerializable {
 	
 	public void disable() {
 		this.timeBeforeCanBeRobbed = Long.MAX_VALUE;
+	}
+	
+	public void setVaultTimer(VaultTimer timer) {
+		this.vTimer = timer;
+	}
+	
+	public VaultTimer getVaultTimer() {
+		return this.vTimer;
+	}
+	
+	public void setSignTimer(SignTimer timer) {
+		this.sTimer = timer;
+	}
+	
+	public SignTimer getSignTimer() {
+		return this.sTimer;
 	}
 	
 	public void toggleDoor() {

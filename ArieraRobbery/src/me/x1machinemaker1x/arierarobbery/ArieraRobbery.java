@@ -1,30 +1,28 @@
 package me.x1machinemaker1x.arierarobbery;
 
-import java.util.HashMap;
-import java.util.UUID;
-
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
 import me.x1machinemaker1x.arierarobbery.events.BlockBreak;
 import me.x1machinemaker1x.arierarobbery.events.InventoryClick;
+import me.x1machinemaker1x.arierarobbery.events.PlayerDeath;
 import me.x1machinemaker1x.arierarobbery.events.PlayerInteract;
-import me.x1machinemaker1x.arierarobbery.objects.BankVault;
-import me.x1machinemaker1x.arierarobbery.objects.SignTimer;
+import me.x1machinemaker1x.arierarobbery.events.PlayerMove;
 import me.x1machinemaker1x.arierarobbery.utils.Commands;
 import me.x1machinemaker1x.arierarobbery.utils.Configs;
 import me.x1machinemaker1x.arierarobbery.utils.Messages;
 import me.x1machinemaker1x.arierarobbery.utils.Vaults;
+import net.milkbowl.vault.economy.Economy;
 
 public class ArieraRobbery extends JavaPlugin {
 	
 	public static WorldEditPlugin worldEdit;
-	
-	private HashMap<UUID, SignTimer> signTimers;
+	private static Economy econ = null;
 	
 	public void onEnable() {
 		
@@ -37,15 +35,26 @@ public class ArieraRobbery extends JavaPlugin {
 		cm.setup(this);
 		getCommand("arierarobbery").setExecutor(cm);
 		
+		if (!setupEconomy() ) {
+            this.getLogger().severe("Disabled due to no Vault dependency found!");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+		else {
+			this.getLogger().info("Vault found! ArieraRobbery has been successfully hooked in!");
+		}
+		
 		worldEdit = getWorldEdit();
 		if (worldEdit == null) {
 			this.getLogger().severe("WorldEdit not found! Disabling this plugin");
 			Bukkit.getPluginManager().disablePlugin(this);
 			return;
 		}
-		this.getLogger().info("WorldEdit found! ArieraJail has been successfully hooked in!");
+		this.getLogger().info("WorldEdit found! ArieraRobbery has been successfully hooked in!");
 		
-		signTimers = new HashMap<UUID, SignTimer>();
+		getConfig().options().copyDefaults(true);
+		getConfig().options().copyHeader(true);
+		saveConfig();
 	}
 	
 	private WorldEditPlugin getWorldEdit() {
@@ -59,14 +68,23 @@ public class ArieraRobbery extends JavaPlugin {
 		pm.registerEvents(new BlockBreak(), this);
 		pm.registerEvents(new PlayerInteract(), this);
 		pm.registerEvents(new InventoryClick(this), this);
+		pm.registerEvents(new PlayerMove(), this);
+		pm.registerEvents(new PlayerDeath(), this);
 	}
 	
-	public void addTimer(UUID playerUUID, BankVault vault) {
-		signTimers.put(playerUUID, new SignTimer(playerUUID, this, vault));
-		signTimers.get(playerUUID).runTaskTimer(this, 0L, 20L);
-	}
+	private boolean setupEconomy() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            return false;
+        }
+        econ = rsp.getProvider();
+        return econ != null;
+    }
 	
-	public void cancelSignTimer(UUID playerUUID) {
-		signTimers.remove(playerUUID);
+	public static Economy getEcon() {
+		return econ;
 	}
 }

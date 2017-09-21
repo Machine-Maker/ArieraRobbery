@@ -8,3 +8,29 @@ main: me.x1machinemaker1x.arierarobbery.ArieraRobbery
 commands:
   arierarobbery:
     aliases: [ar]
+
+permissions:
+  arierarobbery.createdoor:
+    default: op
+  arierarobbery.createsign:
+    default: op
+  arierarobbery.createvault:
+    default: op
+  arierarobbery.deletedoor:
+    default: op
+  arierarobbery.deletesign:
+    default: op
+  arierarobbery.deletevault:
+    default: op
+  arierarobbery.enablevault:
+    default: op
+  arierarobbery.disablevault:
+    default: op
+  arierarobbery.check:
+    default: true
+  arierarobbery.checktime:
+    default: true
+  arierarobbery.reload:
+    default: op
+  arierarobbery.notify:
+    default: true

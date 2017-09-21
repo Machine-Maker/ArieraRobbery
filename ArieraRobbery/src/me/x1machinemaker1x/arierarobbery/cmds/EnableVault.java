@@ -14,6 +14,14 @@ public class EnableVault extends SubCommand {
 			p.sendMessage(Messages.PREFIX.toString() + Messages.NOT_VAULT.toString());
 			return;
 		}
+		if (vault.getDoor().contains(null)) {
+			p.sendMessage(Messages.PREFIX.toString() + Messages.NO_DOOR.toString());
+			return;
+		}
+		if (vault.getSign() == null) {
+			p.sendMessage(Messages.PREFIX.toString() + Messages.NO_SIGN);
+			return;
+		}
 		if (vault.getTime() != Long.MAX_VALUE) {
 			p.sendMessage(Messages.PREFIX.toString() + Messages.ALREADY_STATE.toString().replace("%state%", "enabled"));
 			return;

@@ -44,7 +44,7 @@ public class CreateVault extends SubCommand {
 	}
 	
 	public String format() {
-		return "/bank createvault <name>";
+		return "/ar createvault <name>";
 	}
 	
 	public String[] aliases() {

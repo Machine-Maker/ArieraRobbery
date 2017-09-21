@@ -1,6 +1,7 @@
 package me.x1machinemaker1x.arierarobbery.utils;
 
 import java.io.File;
+import java.util.concurrent.TimeUnit;
 
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -22,23 +23,34 @@ public enum Messages {
 	NOT_DOOR("not-door", "&cThat is not an iron door!"),
 	NOT_PASSCODE("not-number", "&cThat is not a valid passcode. It must be 4 numbers!"),
 	NOT_SIGN("not-sign", "&cThat is not a sign block!"),
+	NOT_IN_VAULT("not-in-vault", "&cYou are not currently in a vault!"),
 	
 	VAULT_CREATED("vault-created", "&aYou have created the vault %vaultname%!"),
 	VAULT_DELETED("vault-deleted", "&aYou have deleted the vault %vaultname%!"),
 	DOOR_CREATED("door-created", "&aYou have created a door for vault %vaultname%!"),
 	DOOR_DELETED("door-deleted", "&aYou have deleted the door for vault %vaultname%!"),
-	SIGN_CREATED("sign-created", "&aYou have created a sign for %vaultname%!"),
+	SIGN_CREATED("sign-created", "&aYou have created a sign for vault %vaultname%!"),
+	SIGN_DELETED("sign-deleted", "&aYou have deleted the sign for vault %vaultname%!"),
 	
+	ROBBABLE("robbable", "&aThis vault is robbable!"),
 	NOT_ROBBABLE("not-robbable", "&6This vault is not robbable right now!"),
+	TIME_LEFT("time-left", "&e%time% &6until the bank is robbable again!"),
+	NO_DOOR("no-door", "&cThere is no door set for this vault!"),
+	NO_SIGN("no-sign", "&cThere is no sign set for this vault!"),
 	ALREADY_STATE("already-state", "&cThat vault is already %state%!"),
 	STATE_TOGGLE("state-toggle", "&aYou have %state% vault %vaultname%!"),
 	
 	LEFT_SIGN("left-sign", "&cYou have left the sign area and must unlock the door again!"),
+	LEFT_VAULT("left-vault", "&cYou have left the vault area!"),
 	
-	DOOR_OPENED("door-opened", "&2The vault door was opened! Once you step inside the vault, you have to stay for %minutes% minutes to get $%amount% from every player!"),
-	ENTERED_VAULT("entered-vault", "&2You have entered the vault. Your %minutes% minutes starts now!"),
-	MINUTES_PASSED("minutes-passed", "&a%minutes% minutes have elapsed!"),
+	PASSCODE_CORRECT("passcode-correct", "&aYou have entered the correct passcode for the vault! You must stay in the area for %seconds%!"),
+	DOOR_OPENED("door-opened", "&aThe vault door was opened! Once you step inside the vault, you have to stay for %minutes% to get $%amount% from every player!"),
+	ENTERED_VAULT("entered-vault", "&aYou have entered the vault. Your %minutes% starts now!"),
+	ROB_BROADCAST("rob-broadcast", "&5&k[*]&r&9Vault &4&n%vaultname%&r &9is being robbed right now! &4Stop it!&5&k[*]"),
+	TIME_PASSED("time-passed", "&a%time% have elapsed!"),
 	VAULT_TIME_DONE("vault-time-done", "&aYour time is done! You can leave now."),
+	MONEY_GIVEN("money-given", "&eYou have received &6%amount% &efrom the players on the server!"),
+	MONEY_TAKEN("money-taken", "&6%amount% &ewas taken from your account!"),
 	
 	CONFIG_RELOADED("config-reloaded", "&a%filename% %has/have% been reloaded!"),
 	NOT_CONFIGURATION("not-configuration", "&cThat is not a valid configuration!");
@@ -96,5 +108,14 @@ public enum Messages {
 	@Override
 	public String toString() {
 		return ChatColor.translateAlternateColorCodes('&', this.getDefault());
+	}
+	
+	public static String convertTime(Long millis) {
+		return String.format("%02d:%02d:%02d", 
+				TimeUnit.MILLISECONDS.toHours(millis),
+				TimeUnit.MILLISECONDS.toMinutes(millis) -  
+				TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)), // The change is in this line
+				TimeUnit.MILLISECONDS.toSeconds(millis) - 
+				TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
 	}
 }
