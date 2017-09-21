@@ -30,6 +30,7 @@ public class VaultTimer extends BukkitRunnable {
 		this.count = 0;
 		this.doneRobbing = false;
 		this.amountToTake = Configs.getInstance().getConfig(ConfigType.CONFIG).getDouble("amount-to-get-when-robbed");
+		System.out.println(maxTime);
 	}
 	
 	@Override
@@ -66,7 +67,7 @@ public class VaultTimer extends BukkitRunnable {
 				}
 				count++;
 				if (count % 60 == 0) {
-					player.sendMessage(Messages.TIME_PASSED.toString().replace("%time%", Messages.convertTime((long) (count*60*1000))));
+					player.sendMessage(Messages.TIME_PASSED.toString().replace("%time%", Messages.convertTime((long) (count*1000))));
 				}
 			}
 			else if (count != 0) {
