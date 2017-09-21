@@ -22,22 +22,28 @@ public class Configs {
 	
 	public void setup(Plugin plugin) {
 		configs = new HashMap<File, FileConfiguration>();
-		configs.put(new File(plugin.getDataFolder(), "config.yml"), null);
+		configs.put(new File(plugin.getDataFolder(), "config.yml"), plugin.getConfig());
 		configs.put(new File(plugin.getDataFolder(), "vaults.yml"), null);
 		for (File f : configs.keySet()) {
-			if (!f.exists()) {
-				try {
-					f.createNewFile();
-				} catch (Exception e) {
-					plugin.getLogger().severe("Could not create " + f.getName() + "!");
+			if (configs.get(f) == null) {
+				if (!f.exists()) {
+					try {
+						f.createNewFile();
+					} catch (Exception e) {
+						plugin.getLogger().severe("Could not create " + f.getName() + "!");
+						e.printStackTrace();
+					}
 				}
-			}
-			if (f.getName().equals("config.yml"))
-				ConfigType.CONFIG.setFile(f);
-			else if (f.getName().equals("vaults.yml"))
 				ConfigType.VAULTS.setFile(f);
-			configs.put(f, YamlConfiguration.loadConfiguration(f));
+				configs.put(f, YamlConfiguration.loadConfiguration(f));
+			}
+			else {
+				System.out.println(f.getName());
+				ConfigType.CONFIG.setFile(f);
+			}
 		}
+		saveConfig(ConfigType.CONFIG);
+		saveConfig(ConfigType.VAULTS);
 	}
 	
 	public FileConfiguration getConfig(ConfigType type) {
@@ -50,9 +56,13 @@ public class Configs {
 	
 	public void saveConfig(ConfigType type) {
 		try {
+			if (configs.get(type.getFile()) == null) {
+				System.out.println("TEST");
+			}
 			configs.get(type.getFile()).save(type.getFile());
 		} catch (Exception e) {
 			Bukkit.getLogger().severe("[ArieraJail] Could not save " + type.getFile().getName() + "!");
+			e.printStackTrace();
 		}
 	}
 	

@@ -26,6 +26,10 @@ public class ArieraRobbery extends JavaPlugin {
 	
 	public void onEnable() {
 		
+		getConfig().options().copyDefaults(true);
+		getConfig().options().copyHeader(true);
+		saveConfig();
+		
 		Configs.getInstance().setup(this);
 		Messages.setup(this);
 		Vaults.getInstance().setup(this);
@@ -51,10 +55,6 @@ public class ArieraRobbery extends JavaPlugin {
 			return;
 		}
 		this.getLogger().info("WorldEdit found! ArieraRobbery has been successfully hooked in!");
-		
-		getConfig().options().copyDefaults(true);
-		getConfig().options().copyHeader(true);
-		saveConfig();
 	}
 	
 	private WorldEditPlugin getWorldEdit() {
