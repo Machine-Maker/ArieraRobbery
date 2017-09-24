@@ -34,3 +34,5 @@ permissions:
     default: op
   arierarobbery.notify:
     default: true
+  arierarobbery.police:
+    default: op

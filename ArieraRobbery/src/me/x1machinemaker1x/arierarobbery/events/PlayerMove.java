@@ -11,6 +11,7 @@ public class PlayerMove implements Listener {
 	
 	@EventHandler
 	public void onPlayerMove(PlayerMoveEvent e) {
+		if (e.getPlayer().hasPermission("arierarobbery.police")) return;
 		for (BankVault vault : Vaults.getInstance().getVaults()) {
 			if (vault.getSel().contains(e.getTo())) {
 				if (vault.getVaultTimer() == null) {
