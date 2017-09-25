@@ -38,7 +38,6 @@ public class Configs {
 				configs.put(f, YamlConfiguration.loadConfiguration(f));
 			}
 			else {
-				System.out.println(f.getName());
 				ConfigType.CONFIG.setFile(f);
 			}
 		}
@@ -56,9 +55,6 @@ public class Configs {
 	
 	public void saveConfig(ConfigType type) {
 		try {
-			if (configs.get(type.getFile()) == null) {
-				System.out.println("TEST");
-			}
 			configs.get(type.getFile()).save(type.getFile());
 		} catch (Exception e) {
 			Bukkit.getLogger().severe("[ArieraJail] Could not save " + type.getFile().getName() + "!");

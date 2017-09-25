@@ -30,7 +30,6 @@ public class VaultTimer extends BukkitRunnable {
 		this.count = 0;
 		this.doneRobbing = false;
 		this.amountToTake = Configs.getInstance().getConfig(ConfigType.CONFIG).getDouble("amount-to-get-when-robbed");
-		System.out.println(maxTime);
 	}
 	
 	@Override
